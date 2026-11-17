@@ -1,0 +1,345 @@
+<!-- ===================== BANDEAU D'ANNONCE ===================== -->
+<div class="announce-bar">
+  <span>Kane Form · Nutrition sportive authentique</span>
+  <a href="#nutrition">Découvrir la créatine →</a>
+</div>
+
+<!-- ===================== HEADER / NAVIGATION ===================== -->
+<header class="site-header">
+  <div class="site-header__row">
+    <a class="logo" href="#">
+      <img src="assets/images/logo.jpeg" alt="Kane Form — Sports Nutrition" class="logo__img" />
+    </a>
+
+    <nav class="main-nav">
+      <ul>
+        @for (link of navLinks; track link.label) {
+          <li class="main-nav__item">
+            <button type="button">{{ link.label }}</button>
+            <ul class="main-nav__submenu">
+              @for (child of link.children; track child) {
+                <li>
+                  <a href="#">{{ child }}</a>
+                </li>
+              }
+            </ul>
+          </li>
+        }
+      </ul>
+    </nav>
+
+    <div class="site-header__actions">
+      <a href="#" class="icon-btn" aria-label="Rechercher">
+        <svg viewBox="0 0 24 24">
+          <path d="M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Zm11 3-5.6-5.6" />
+        </svg>
+      </a>
+      <a href="#" class="icon-btn" aria-label="Mon compte">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-8 9a8 8 0 0 1 16 0" />
+        </svg>
+      </a>
+      <a href="#" class="icon-btn icon-btn--cart" aria-label="Panier">
+        <svg viewBox="0 0 24 24">
+          <path d="M3 3h2l2.4 12.2A2 2 0 0 0 9.4 17h8.2a2 2 0 0 0 2-1.6L21 8H6" />
+        </svg>
+        <span class="cart-count">0</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-header__bar">
+    <a href="#">Contact</a>
+    <a href="#">Devenir distributeur</a>
+  </div>
+</header>
+
+<main>
+  <!-- ===================== HERO : IMAGE DE FOND ===================== -->
+  <section class="hero">
+    <div class="hero__media">
+      <!-- Carrousel : dépose tes images sous ces noms exacts (assets/images/hero-1.jpg à hero-4.jpg) -->
+      @for (img of heroImages; track img; let i = $index) {
+        <img
+          [src]="img"
+          [alt]="'Kane Form — nutrition sportive, image ' + (i + 1)"
+          class="hero__slide"
+          [class.hero__slide--active]="i === activeHeroIndex"
+        />
+      }
+      <div class="hero__overlay"></div>
+      <div class="hero__glow hero__glow--1"></div>
+      <div class="hero__glow hero__glow--2"></div>
+    </div>
+
+    <div class="hero__content">
+      <span class="hero__badge">Compléments importés authentiques</span>
+      <h1 class="hero__title">KANE <strong>FORM</strong></h1>
+      <p class="hero__subtitle">
+        La destination sénégalaise de la nutrition sportive premium. Créatine, whey, gainers et
+        boosters pour atteindre vos objectifs.
+      </p>
+      <div class="hero__actions">
+        <a href="#nutrition" class="btn btn--primary">Commander maintenant</a>
+        <a href="#categories" class="btn btn--outline">Explorer les catégories</a>
+      </div>
+      <ul class="hero__trust">
+        <li>Produits authentiques</li>
+        <li>Livraison rapide</li>
+        <li>Paiement sécurisé</li>
+      </ul>
+    </div>
+
+    <div class="hero__dots">
+      @for (img of heroImages; track img; let i = $index) {
+        <button
+          type="button"
+          class="hero__dot"
+          [class.hero__dot--active]="i === activeHeroIndex"
+          [attr.aria-label]="'Aller à l’image ' + (i + 1)"
+          (click)="goToHeroImage(i)"
+        ></button>
+      }
+    </div>
+  </section>
+
+  <!-- ===================== TUILES CATÉGORIES ===================== -->
+  <section class="categories" id="categories">
+    <div class="categories__grid">
+      @for (tile of categoryTiles; track tile.name) {
+        <article class="category-tile">
+          <!-- Remplacer par la vraie image : {{ tile.image }} -->
+          <img [src]="tile.image" [alt]="tile.name" />
+          <div class="category-tile__caption">
+            <h3>{{ tile.name }}</h3>
+            <a href="#nutrition" class="btn btn--small">{{ tile.cta }}</a>
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+
+  <!-- ===================== NUTRITION SPORTIVE ===================== -->
+  <section class="products" id="nutrition">
+    <h2 class="section-title">Nutrition sportive</h2>
+    <div class="products__grid">
+      @for (product of nutritionProducts; track product.name) {
+        <article class="product-card">
+          <div class="product-card__media">
+            <!-- Remplacer par la vraie image : {{ product.image }} -->
+            <img [src]="product.image" [alt]="product.name" />
+            @if (!product.inStock) {
+              <span class="badge badge--out">En rupture de stock</span>
+            }
+          </div>
+          <div class="product-card__body">
+            <h3>{{ product.name }}</h3>
+            <p class="product-card__variant">{{ product.variant }}</p>
+            <div class="product-card__rating">
+              @for (star of starsArray(product.rating); track $index) {
+                <svg viewBox="0 0 20 20">
+                  <path
+                    d="M10 1l2.8 6 6.2.5-4.7 4.3L15.6 18 10 14.5 4.4 18l1.3-6.2L1 7.5l6.2-.5L10 1Z"
+                  />
+                </svg>
+              }
+              <span>({{ product.reviews }})</span>
+            </div>
+            <div class="product-card__footer">
+              <span class="price">{{
+                product.price | currency: 'XOF' : 'symbol-narrow' : '1.0-0'
+              }}</span>
+              <button
+                type="button"
+                class="btn btn--primary btn--small"
+                [disabled]="!product.inStock"
+              >
+                Ajouter au panier
+              </button>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+
+  <!-- ===================== PACKS PROMO ===================== -->
+  <section class="packs">
+    <h2 class="section-title">Économisez avec nos packs</h2>
+    <div class="packs__grid">
+      @for (pack of packs; track pack.name) {
+        <article class="pack-card">
+          <span class="pack-card__discount">-{{ pack.discount }} %</span>
+          <!-- Remplacer par la vraie image : {{ pack.image }} -->
+          <img [src]="pack.image" [alt]="pack.name" />
+          <h3>{{ pack.name }}</h3>
+          <div class="pack-card__price">
+            <span class="price">{{
+              pack.price | currency: 'XOF' : 'symbol-narrow' : '1.0-0'
+            }}</span>
+            <span class="price price--old">{{
+              pack.oldPrice | currency: 'XOF' : 'symbol-narrow' : '1.0-0'
+            }}</span>
+          </div>
+          <button type="button" class="btn btn--primary">Ajouter au panier</button>
+        </article>
+      }
+    </div>
+  </section>
+
+  <!-- ===================== COMMUNAUTÉ ===================== -->
+  <section class="community">
+    <div class="community__media">
+      <!-- Remplacer par la vraie image : assets/images/communaute.jpg -->
+      <img src="assets/images/logo.jpeg" alt="Communauté Kane Form" />
+    </div>
+    <div class="community__content">
+      <p class="eyebrow">Nous sommes une communauté</p>
+      <h2>BE STRONG, BE KANE FORM !</h2>
+      <p>
+        Rejoignez une communauté d'athlètes et de passionnés de fitness au Sénégal qui partagent les
+        mêmes objectifs de performance et de santé.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================== PARTENAIRE OFFICIEL ===================== -->
+  <section class="partner">
+    <p class="eyebrow">Partenaire officiel</p>
+    <h2>Distribution certifiée</h2>
+    <p>
+      Kane Form travaille avec des partenaires certifiés ISO 9001 et 22000 pour garantir la qualité
+      et la traçabilité de chaque produit.
+    </p>
+    <a href="#" class="link-arrow">En savoir plus sur nos partenaires →</a>
+  </section>
+
+  <!-- ===================== AVIS CLIENTS ===================== -->
+  <section class="reviews">
+    <h2 class="section-title">Let customers speak for us</h2>
+    <p class="reviews__count">à partir de 1111 avis</p>
+    <div class="reviews__grid">
+      @for (review of reviews; track review.name) {
+        <article class="review-card">
+          <div class="review-card__rating">
+            @for (star of starsArray(review.rating); track $index) {
+              <svg viewBox="0 0 20 20">
+                <path
+                  d="M10 1l2.8 6 6.2.5-4.7 4.3L15.6 18 10 14.5 4.4 18l1.3-6.2L1 7.5l6.2-.5L10 1Z"
+                />
+              </svg>
+            }
+          </div>
+          <p class="review-card__text">« {{ review.text }} »</p>
+          <p class="review-card__meta">{{ review.name }} · {{ review.date }}</p>
+          <p class="review-card__product">{{ review.product }}</p>
+        </article>
+      }
+    </div>
+  </section>
+
+  <!-- ===================== TEXTE MARQUE + FAQ ===================== -->
+  <section class="brand-faq">
+    <div class="brand-text">
+      <h2>Kane Form, la nutrition sportive pensée pour vous</h2>
+      <p>
+        Kane Form sélectionne et distribue des compléments alimentaires de qualité pour accompagner
+        sportifs amateurs et confirmés au Sénégal : whey, créatine, gainers et boosters, fabriqués
+        selon des standards stricts de qualité.
+      </p>
+      <div class="brand-text__actions">
+        <a href="#nutrition" class="btn btn--outline btn--small">Voir la whey</a>
+        <a href="#" class="btn btn--outline btn--small">Made in Sénégal</a>
+        <a href="#categories" class="btn btn--outline btn--small">Toutes les catégories</a>
+      </div>
+    </div>
+
+    <div class="faq">
+      @for (item of faqs; track item.question) {
+        <div class="faq-item" [class.faq-item--open]="item.open">
+          <button type="button" class="faq-item__question" (click)="toggleFaq(item)">
+            {{ item.question }}
+            <span>{{ item.open ? '−' : '+' }}</span>
+          </button>
+          @if (item.open) {
+            <p class="faq-item__answer">{{ item.answer }}</p>
+          }
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- ===================== ENCARTS RÉASSURANCE ===================== -->
+  <section class="reassurance">
+    <div class="reassurance__item">
+      <h3>Livraison rapide</h3>
+      <p>Partout au Sénégal sous 24 à 72h.</p>
+    </div>
+    <div class="reassurance__item">
+      <h3>Conseils d'experts</h3>
+      <p>Une équipe disponible pour vous orienter.</p>
+    </div>
+    <div class="reassurance__item">
+      <h3>Nos boutiques</h3>
+      <p>Retrouvez-nous à Dakar et à Thiès.</p>
+    </div>
+  </section>
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="site-footer">
+  <div class="site-footer__top">
+    <div class="footer-brand">
+      <span class="footer-brand__logo">
+        <img src="assets/images/logo.jpeg" alt="Kane Form — Sports Nutrition" />
+      </span>
+      <p>Pensé pour la performance.</p>
+      <div class="footer-brand__social">
+        <a href="#" aria-label="Instagram">IG</a>
+        <a href="#" aria-label="TikTok">TT</a>
+        <a href="#" aria-label="Facebook">FB</a>
+        <a href="#" aria-label="WhatsApp">WA</a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Nutrition</h4>
+      <a href="#">Whey</a>
+      <a href="#">Créatine</a>
+      <a href="#">Gainers</a>
+      <a href="#">Boosters</a>
+      <a href="#">Packs</a>
+    </div>
+
+    <div class="footer-col">
+      <h4>Accessoires</h4>
+      <a href="#">Shakers &amp; bouteilles</a>
+      <a href="#">Sacs</a>
+      <a href="#">Chaussettes</a>
+    </div>
+
+    <div class="footer-col">
+      <h4>Nos boutiques</h4>
+      <p>Dakar — Point E</p>
+      <p>Thiès — Centre-ville</p>
+      <a href="#">Contact</a>
+      <a href="#">Devenir distributeur</a>
+    </div>
+  </div>
+
+  <div class="site-footer__payments">
+    <span>Wave</span>
+    <span>Orange Money</span>
+    <span>Paiement à la livraison</span>
+    <span>Carte bancaire</span>
+  </div>
+
+  <div class="site-footer__bottom">
+    <p>© {{ '' }}2026 Kane Form. Tous droits réservés.</p>
+    <div>
+      <a href="#">CGV</a>
+      <a href="#">Politique de retour</a>
+      <a href="#">Politique d'expédition</a>
+    </div>
+  </div>
+</footer>
