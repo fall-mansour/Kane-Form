@@ -226,21 +226,21 @@ export class AccueilComponent implements OnInit, OnDestroy {
   readonly packs: Pack[] = [
     {
       name: 'Pack Prise de Masse',
-      image: 'assets/images/pack-masse.jpg',
+      image: 'assets/images/masse-package.png',
       price: 42000,
       oldPrice: 50000,
       discount: 16,
     },
     {
       name: 'Pack Performance',
-      image: 'assets/images/pack-performance.jpg',
+      image: 'assets/images/perf-package.png',
       price: 36000,
       oldPrice: 44000,
       discount: 19,
     },
     {
       name: 'Pack Récupération',
-      image: 'assets/images/pack-recuperation.jpg',
+      image: 'assets/images/creatine-package.png',
       price: 28000,
       oldPrice: 36000,
       discount: 22,

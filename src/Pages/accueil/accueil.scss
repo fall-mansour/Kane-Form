@@ -1508,6 +1508,16 @@ img {
         background 0.2s ease,
         border-color 0.2s ease;
 
+      svg {
+        width: 16px;
+        height: 16px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
       &:hover {
         background: var(--blue);
         border-color: var(--blue);
