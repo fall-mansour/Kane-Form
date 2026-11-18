@@ -55,13 +55,13 @@
 </header>
 
 <main>
-  <!-- ===================== HERO : IMAGE DE FOND ===================== -->
+  <!-- ===================== HERO : IMAGE DE FOND + TEXTE ANIMÉS ===================== -->
   <section class="hero">
     <div class="hero__media">
-      <!-- Carrousel : dépose tes images sous ces noms exacts (assets/images/hero-1.jpg à hero-4.jpg) -->
-      @for (img of heroImages; track img; let i = $index) {
+      <!-- Carrousel : dépose tes images sous ces noms exacts (assets/images/fond-1.jpg à fond-5.jpg) -->
+      @for (slide of heroSlides; track slide.image; let i = $index) {
         <img
-          [src]="img"
+          [src]="slide.image"
           [alt]="'Kane Form — nutrition sportive, image ' + (i + 1)"
           class="hero__slide"
           [class.hero__slide--active]="i === activeHeroIndex"
@@ -73,12 +73,19 @@
     </div>
 
     <div class="hero__content">
-      <span class="hero__badge">Compléments importés authentiques</span>
-      <h1 class="hero__title">KANE <strong>FORM</strong></h1>
-      <p class="hero__subtitle">
-        La destination sénégalaise de la nutrition sportive premium. Créatine, whey, gainers et
-        boosters pour atteindre vos objectifs.
-      </p>
+      <!-- Le texte descriptif défile en fondu, en synchro avec les images, dans une carte blanche -->
+      <div class="hero__text-wrap">
+        @for (slide of heroSlides; track slide.image; let i = $index) {
+          <div class="hero__text" [class.hero__text--active]="i === activeHeroIndex">
+            <span class="hero__badge">{{ slide.badge }}</span>
+            <h1 class="hero__title">
+              {{ slide.titleMain }} <strong>{{ slide.titleAccent }}</strong>
+            </h1>
+            <p class="hero__subtitle">{{ slide.subtitle }}</p>
+          </div>
+        }
+      </div>
+
       <div class="hero__actions">
         <a href="#nutrition" class="btn btn--primary">Commander maintenant</a>
         <a href="#categories" class="btn btn--outline">Explorer les catégories</a>
@@ -91,7 +98,7 @@
     </div>
 
     <div class="hero__dots">
-      @for (img of heroImages; track img; let i = $index) {
+      @for (slide of heroSlides; track slide.image; let i = $index) {
         <button
           type="button"
           class="hero__dot"

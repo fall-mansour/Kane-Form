@@ -1,6 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 
+interface HeroSlide {
+  image: string;
+  badge: string;
+  titleMain: string;
+  titleAccent: string;
+  subtitle: string;
+}
+
 interface CategoryTile {
   name: string;
   image: string;
@@ -47,15 +55,45 @@ interface FaqItem {
   templateUrl: './accueil.html',
 })
 export class AccueilComponent implements OnInit, OnDestroy {
-  /** Images du carrousel du hero — plein format, remplace l'image de fond fixe. */
-  readonly heroImages: string[] = [
-    'assets/images/fond-1.jpg',
-    'assets/images/fond-2.jpg',
-    'assets/images/fond-3.jpg',
-    'assets/images/fond-5.jpg',
+  /**
+   * Diapositives du hero : image de fond + texte descriptif, synchronisés.
+   * Dépose les images sous ces noms exacts (assets/images/fond-1.jpg, fond-2.jpg, fond-3.jpg, fond-5.jpg).
+   * Le texte défile en fondu exactement comme les images (voir accueil.scss > .hero__text).
+   */
+  readonly heroSlides: HeroSlide[] = [
+    {
+      image: 'assets/images/fond-1.jpg',
+      badge: 'Compléments importés authentiques',
+      titleMain: 'KANE',
+      titleAccent: 'FORM',
+      subtitle:
+        'La destination sénégalaise de la nutrition sportive premium. Créatine, whey, gainers et boosters pour atteindre vos objectifs.',
+    },
+    {
+      image: 'assets/images/fond-2.jpg',
+      badge: 'Protéines premium',
+      titleMain: 'RÉCUPÈRE',
+      titleAccent: 'PLUS VITE',
+      subtitle:
+        "Des whey et isolats sélectionnés pour reconstruire le muscle efficacement après l'effort.",
+    },
+    {
+      image: 'assets/images/fond-3.jpg',
+      badge: 'Créatine monohydrate',
+      titleMain: 'GAGNE EN',
+      titleAccent: 'PUISSANCE',
+      subtitle: "Plus de force et d'endurance à chaque séance, jour après jour.",
+    },
+    {
+      image: 'assets/images/fond-5.jpg',
+      badge: 'Pre-workout & boosters',
+      titleMain: 'DÉPASSE TES',
+      titleAccent: 'LIMITES',
+      subtitle: "L'énergie et la concentration qu'il te faut pour battre chaque record personnel.",
+    },
   ];
 
-  /** Délai exact entre deux images, en millisecondes. */
+  /** Délai exact entre deux diapositives (image + texte), en millisecondes. */
   readonly heroIntervalMs = 5000;
 
   activeHeroIndex = 0;
@@ -73,7 +111,7 @@ export class AccueilComponent implements OnInit, OnDestroy {
   }
 
   nextHeroImage(): void {
-    this.activeHeroIndex = (this.activeHeroIndex + 1) % this.heroImages.length;
+    this.activeHeroIndex = (this.activeHeroIndex + 1) % this.heroSlides.length;
   }
 
   goToHeroImage(index: number): void {

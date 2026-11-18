@@ -605,7 +605,8 @@ img {
   }
 
   .logo__img {
-    height: 36px;
+    height: 100px;
+    width: 100px;
   }
 
   .site-header__actions {
@@ -719,6 +720,68 @@ img {
     color: var(--white);
   }
 
+  // --- Carte de texte animée : défile en fondu, en synchro avec les images de fond ---
+  &__text-wrap {
+    position: relative;
+    min-height: 300px;
+    margin-bottom: 32px;
+  }
+
+  &__text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(18px) scale(0.97);
+    transition:
+      opacity 0.7s var(--ease),
+      transform 0.7s var(--ease),
+      visibility 0.7s;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(14px) saturate(140%);
+    border-radius: var(--radius-lg);
+    padding: 36px 40px 32px;
+    box-shadow: var(--shadow-lg);
+
+    &--active {
+      opacity: 1;
+      visibility: visible;
+      z-index: 2;
+      transform: translateY(0) scale(1);
+    }
+
+    // Couleurs réajustées pour une carte blanche (le badge/titre/sous-titre sont
+    // par défaut pensés pour un fond sombre, voir plus bas) : ces règles, plus
+    // spécifiques, l'emportent automatiquement.
+    .hero__badge {
+      background: var(--blue-light);
+      border-color: rgba(36, 87, 255, 0.25);
+      color: var(--blue-dark);
+      margin-bottom: 16px;
+    }
+
+    .hero__title {
+      color: var(--ink);
+      margin-bottom: 12px;
+
+      strong {
+        background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+    }
+
+    .hero__subtitle {
+      color: var(--ink-soft);
+      margin: 0;
+    }
+  }
+
   &__badge {
     display: inline-flex;
     align-items: center;
@@ -802,6 +865,16 @@ img {
         border: 1px solid var(--blue-bright);
       }
     }
+  }
+}
+
+@media (max-width: 600px) {
+  .hero__text-wrap {
+    min-height: 360px;
+  }
+
+  .hero__text {
+    padding: 26px 22px 24px;
   }
 }
 
